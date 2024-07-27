@@ -62,19 +62,10 @@ const NavBar = () => {
           <NavLink href="/Usuario">Usuario</NavLink>
         )}
         <div className="relative">
-          <button
-            onClick={toggleOpciones}
-            className="text-white focus:outline-none"
-          >
-            Categoría
-          </button>
-          {mostrarOpciones && (
-            <div className="absolute right-0 mt-1 w-32 bg-slate-700 text-slate-200 shadow-md rounded-md flex flex-col z-20">
-              <NavLink href="/categorias/ropa">Ropa</NavLink>
-              <NavLink href="/categorias/alimentos">Alimentos</NavLink>
-              <NavLink href="/categorias/otros">Otros</NavLink>
-            </div>
-          )}
+         
+         
+        <NavLink href="/Carrito">Carrito</NavLink>
+
         </div>
       </div>
     </nav>

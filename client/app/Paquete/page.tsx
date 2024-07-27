@@ -1,7 +1,29 @@
-import Image from 'next/image';
+// app/Paquete/page.tsx
+
+"use client"; // Marca este componente como cliente
+
 import React from 'react';
+import Image from 'next/image';
+import { useRouter } from 'next/navigation';
 
 const PagePaquete = () => {
+    const router = useRouter();
+
+    const handleClick = (productId: number) => {
+        // Añadir el producto al carrito en localStorage
+        const cart = JSON.parse(localStorage.getItem('cart') || '[]');
+        const existingItem = cart.find((item: any) => item.id === productId);
+
+        if (existingItem) {
+            existingItem.quantity += 1;
+        } else {
+            cart.push({ id: productId, quantity: 1 });
+        }
+
+        localStorage.setItem('cart', JSON.stringify(cart));
+        router.push('/Carrito'); // Redirigir al carrito de compras
+    };
+
     return (
         <main className="container mx-auto p-4">
             <h3 className="text-2xl font-bold mb-4">Productos</h3>
@@ -24,7 +46,10 @@ const PagePaquete = () => {
                             <strong>Marca:</strong> CAT
                         </p>
                         <p className="text-sm text-gray-500 mt-2">Disponible 100 unidades</p>
-                        <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-4">
+                        <button
+                            onClick={() => handleClick(1)} // Asume ID del producto 1
+                            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-4"
+                        >
                             Comprar
                         </button>
                     </div>
@@ -49,7 +74,10 @@ const PagePaquete = () => {
                             XL. $45.000<br />
                         </p>
                         <p className="text-sm text-gray-500 mt-2">Disponible 500 unidades</p>
-                        <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-4">
+                        <button
+                            onClick={() => handleClick(2)} // Asume ID del producto 2
+                            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-4"
+                        >
                             Comprar
                         </button>
                     </div>
@@ -76,7 +104,10 @@ const PagePaquete = () => {
                             Pescado:<br />
                             Valor kg: $10.000<br /><br />
                         </p>
-                        <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-4">
+                        <button
+                            onClick={() => handleClick(3)} // Asume ID del producto 3
+                            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-4"
+                        >
                             Comprar
                         </button>
                     </div>
