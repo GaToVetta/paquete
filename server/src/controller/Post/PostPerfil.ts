@@ -33,7 +33,6 @@ export const PostPerfil = async (req: Request, res: Response) => {
             data: {
                 email,
                 password: hashedPassword, // Guardamos la contraseña hasheada
-                actpassword,
                 first_name,
                 last_name,
             },
