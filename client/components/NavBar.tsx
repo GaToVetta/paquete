@@ -55,7 +55,7 @@ const NavBar = () => {
         <NavLink href="/Paquete">Tienda</NavLink>
         {isLoggedIn ? (
           <>
-            <NavLink href="/Perfil">{userName}</NavLink>
+            <NavLink href="">{userName}</NavLink>
             <NavLink href="" onClick={handleLogout}>Salir</NavLink>
           </>
         ) : (

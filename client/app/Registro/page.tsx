@@ -1,32 +1,32 @@
-"use client"
+"use client";
 import Link from 'next/link';
-import React, { ChangeEventHandler, useState } from 'react';
-import { toast } from "sonner"
+import React, { useState } from 'react';
+import { toast } from "sonner";
 import { useRouter } from 'next/navigation';
 
-const PageRegister = () => {
-    const router = useRouter()
-    const [error, setError] = useState('');
+const PageRegister: React.FC = () => {
+    const router = useRouter();
+    const [error, setError] = useState<string>('');
 
-    const handleSubmit = async (event: any) => {
+    const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
 
-        const formData = new FormData(event.target);
-        const email = formData.get("email")?.toString();
-        const password = formData.get("password")?.toString();
-        const repeat_password = formData.get("repeat_password")?.toString();
-        const first_name = formData.get("first_name")?.toString();
-        const last_name = formData.get("last_name")?.toString();
+        const formData = new FormData(event.target as HTMLFormElement);
+        const email = formData.get("email")?.toString() || '';
+        const password = formData.get("password")?.toString() || '';
+        const repeat_password = formData.get("repeat_password")?.toString() || '';
+        const first_name = formData.get("first_name")?.toString() || '';
+        const last_name = formData.get("last_name")?.toString() || '';
 
         if (password !== repeat_password) {
-            setError("Contraseña incorrecta");
-            toast.error("Contraseña no Coinsiden")
+            setError("Las contraseñas no coinciden");
+            toast.error("Las contraseñas no coinciden");
             return;
         }
 
         if (!email || !password || !repeat_password || !first_name || !last_name) {
-            setError("Please fill in all fields");
-            toast.error("Please fill in all fields")
+            setError("Por favor, complete todos los campos");
+            toast.error("Por favor, complete todos los campos");
             return;
         }
 
@@ -47,22 +47,23 @@ const PageRegister = () => {
             });
 
             if (!res.ok) {
-                throw new Error("Error sending data");
+                const errorData = await res.json();
+                throw new Error(errorData.message || "Error al enviar datos");
             }
 
             const resData = await res.json();
-            toast.success("usuario registrado con exito")
-            router.push("/Usuario")
+            toast.success("Usuario registrado con éxito");
+            router.push("/Usuario");
             console.log(resData);
         } catch (error: any) {
             console.error("Error:", error.message);
-            toast.error("Error: ", error.message)
-
-            setError("Error sending data");
+            toast.error("Error: " + error.message);
+            setError("Error al enviar datos");
         }
     };
+
     return (
-        <article className='my-10 '>
+        <article className='my-10'>
             <section className='w-full text-center text-4xl my-3'>
                 <h1>Registro</h1>
             </section>
@@ -147,15 +148,12 @@ const PageRegister = () => {
             </form>
 
             <section className='w-full text-center text-mb my-3'>
-                <span >
-                    Ya tienes usuario <Link href={"/Usuario"} className='text-blue-300'>Inicio de sección</Link>
+                <span>
+                    Ya tienes usuario <Link href={"/Usuario"} className='text-blue-300'>Inicio de sesión</Link>
                 </span>
             </section>
         </article>
+    );
+};
 
-
-
-    )
-}
-
-export default PageRegister
+export default PageRegister;

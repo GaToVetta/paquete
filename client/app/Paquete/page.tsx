@@ -6,22 +6,24 @@ import React from 'react';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 
-const PagePaquete = () => {
+const PagePaquete: React.FC = () => {
     const router = useRouter();
 
     const handleClick = (productId: number) => {
-        // Añadir el producto al carrito en localStorage
-        const cart = JSON.parse(localStorage.getItem('cart') || '[]');
-        const existingItem = cart.find((item: any) => item.id === productId);
+        if (typeof window !== 'undefined') { // Asegúrate de que estás en el cliente
+            // Añadir el producto al carrito en localStorage
+            const cart = JSON.parse(localStorage.getItem('cart') || '[]');
+            const existingItem = cart.find((item: any) => item.id === productId);
 
-        if (existingItem) {
-            existingItem.quantity += 1;
-        } else {
-            cart.push({ id: productId, quantity: 1 });
+            if (existingItem) {
+                existingItem.quantity += 1;
+            } else {
+                cart.push({ id: productId, quantity: 1 });
+            }
+
+            localStorage.setItem('cart', JSON.stringify(cart));
+            router.push('/Carrito'); // Redirigir al carrito de compras
         }
-
-        localStorage.setItem('cart', JSON.stringify(cart));
-        router.push('/Carrito'); // Redirigir al carrito de compras
     };
 
     return (

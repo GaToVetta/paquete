@@ -17,19 +17,19 @@ const products = [
   {
     id: 1,
     name: 'Herramientas',
-    image: '/imagenes/herramientas.jpg',
+    image: '/imagenes/herramientas.jpg', // Asegúrate de que esta imagen exista
     price: 60000,
   },
   {
     id: 2,
     name: 'Camisetas de color',
-    image: '/imagenes/ropa.jpg',
+    image: '/imagenes/ropa.jpg', // Asegúrate de que esta imagen exista
     price: 15000,
   },
   {
     id: 3,
     name: 'Carnes',
-    image: '/imagenes/carne.jpg',
+    image: '/imagenes/carne.jpg', // Asegúrate de que esta imagen exista
     price: 15000,
   },
 ];
@@ -39,17 +39,19 @@ const CartPage: React.FC = () => {
   const router = useRouter();
 
   useEffect(() => {
-    const storedCart = JSON.parse(localStorage.getItem('cart') || '[]');
-    const updatedCart = storedCart.map((item: any) => {
-      const product = products.find(p => p.id === item.id);
-      return {
-        id: item.id,
-        name: product ? product.name : '',
-        price: product ? product.price : 0,
-        quantity: item.quantity,
-      };
-    });
-    setCartItems(updatedCart);
+    if (typeof window !== 'undefined') { // Asegúrate de que estás en el cliente
+      const storedCart = JSON.parse(localStorage.getItem('cart') || '[]');
+      const updatedCart = storedCart.map((item: any) => {
+        const product = products.find(p => p.id === item.id);
+        return {
+          id: item.id,
+          name: product ? product.name : '',
+          price: product ? product.price : 0,
+          quantity: item.quantity,
+        };
+      });
+      setCartItems(updatedCart);
+    }
   }, []);
 
   const handleRemoveFromCart = (id: number) => {
